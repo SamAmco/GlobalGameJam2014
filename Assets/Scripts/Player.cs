@@ -4,9 +4,21 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     public Camera playerCamera;
+    public TextMesh text;
+    public int playerIndex;
+
+    public GameObject noteImage;
+    public TextMesh noteText;
 
     private bool isPOV = false;
     private Transform cameraTransform;
+
+    private Game game;
+
+    public void init(Game game)
+    {
+        this.game = game;
+    }
 
     public void startCameraPOV(Transform otherCameraTransform)
     {
@@ -30,5 +42,47 @@ public class Player : MonoBehaviour
             playerCamera.transform.position = cameraTransform.position;
             playerCamera.transform.rotation = cameraTransform.rotation;
         }
+    }
+
+    public void setText(string message)
+    {
+        if (text != null)
+        {
+            text.text = message;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Note")
+        {
+            Note note = other.GetComponent<Note>();
+            readNote(note.message);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Note")
+        {
+            game.hasReadNote = true;
+            hideNote();
+        }
+    }
+
+    public void readNote(string message)
+    {
+        noteImage.SetActive(true);
+        noteText.text = message;
+    }
+
+    public void hideNote()
+    {
+        noteImage.SetActive(false);
+    }
+
+    public void setInactive()
+    {
+        hideNote();
     }
 }

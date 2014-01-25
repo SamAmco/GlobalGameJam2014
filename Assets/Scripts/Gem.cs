@@ -17,12 +17,26 @@ public class Gem : MonoBehaviour
         transform.Rotate(Vector3.up, Time.deltaTime * 100);
 	}
 
+    void OnDisable()
+    {
+        game.disableGem();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
             Player player = other.GetComponent<Player>();
-            game.playerReachedEnd(player);
+            game.playerEndGame(player, true);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            Player player = other.GetComponent<Player>();
+            game.playerEndGame(player, false);
         }
     }
 }

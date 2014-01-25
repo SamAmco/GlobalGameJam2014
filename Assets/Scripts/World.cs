@@ -3,16 +3,18 @@ using System.Collections;
 
 public class World : MonoBehaviour
 {
-    public Transform spawnPoint;
-    public Gem endOfLevel;
+    public Gem gem;
+    public Note note;
 
     public void init(Game game)
     {
-        endOfLevel.init(game);
+        gem.init(game);
+        note.init(game);
     }
 
-    public void setGemActive(bool isActive)
+    public void setItemsActive(bool isActive)
     {
-        endOfLevel.gameObject.SetActive(isActive);
+        gem.gameObject.SetActive(isActive);
+        note.gameObject.SetActive(isActive);
     }
 }

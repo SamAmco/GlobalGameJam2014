@@ -14,21 +14,32 @@ public class Game : MonoBehaviour
 
     private bool isWorldSwapped = false;
 
+    private bool hasPlayer01Ended = false;
+    private bool hasPlayer02Ended = false;
+
+    public bool hasReadNote = false;
+
     void Start()
     {
 		player01 = GameObject.Find("Player1").GetComponent<Player>();
 		player02 = GameObject.Find("Player2").GetComponent<Player>();
+
+        player01.init(this);
+        player02.init(this);
 
         player01.transform.parent = world01.transform;
         player02.transform.parent = world02.transform;
 
         //player01.transform.localPosition = world01.spawnPoint.localPosition;
         //player02.transform.localPosition = world02.spawnPoint.localPosition;
+
+        world01.init(this);
+        world02.init(this);
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2"))
+        if ((Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2")) && hasReadNote)
         {
             //swapPosition();
             swapWorld();
@@ -57,9 +68,12 @@ public class Game : MonoBehaviour
 
     private void swapWorld()
     {
-        world01.setGemActive(isWorldSwapped);
-        world02.setGemActive(isWorldSwapped);
-        
+        world01.setItemsActive(isWorldSwapped);
+        world02.setItemsActive(isWorldSwapped);
+
+        player01.setInactive();
+        player02.setInactive();
+
         Vector3 player01LocalPosition = player01.transform.localPosition;
         Vector3 player02LocalPosition = player02.transform.localPosition;
 
@@ -97,8 +111,32 @@ public class Game : MonoBehaviour
         }
     }
 
-    public void playerReachedEnd(Player player)
+    public void playerEndGame(Player player, bool hasEnded)
     {
+        if (player.playerIndex == 1)
+        {
+            hasPlayer01Ended = hasEnded;
+            if (hasEnded) player02.setText("PLAYER 1 HAS ENDED");
+            else player02.setText("");
+        }
+        else
+        {
+            hasPlayer02Ended = hasEnded;
+            if (hasEnded) player01.setText("PLAYER 2 HAS ENDED");
+            else player01.setText("");
+        }
 
+        if (hasPlayer01Ended && hasPlayer02Ended)
+        {
+            Application.LoadLevel("01_MainMenu");
+        }
+    }
+
+    public void disableGem()
+    {
+        hasPlayer01Ended = false;
+        player02.setText("");
+        hasPlayer02Ended = false;
+        player01.setText("");
     }
 }
