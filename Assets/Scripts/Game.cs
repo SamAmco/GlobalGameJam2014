@@ -12,6 +12,8 @@ public class Game : MonoBehaviour
     private bool isPlayer01InPOV = false;
     private bool isPlayer02InPOV = false;
 
+    private bool isWorldSwapped = false;
+
     void Start()
     {
 		player01 = GameObject.Find("Player1").GetComponent<Player>();
@@ -20,8 +22,8 @@ public class Game : MonoBehaviour
         player01.transform.parent = world01.transform;
         player02.transform.parent = world02.transform;
 
-        player01.transform.localPosition = world01.spawnPoint.localPosition;
-        player02.transform.localPosition = world02.spawnPoint.localPosition;
+        //player01.transform.localPosition = world01.spawnPoint.localPosition;
+        //player02.transform.localPosition = world02.spawnPoint.localPosition;
     }
 
     void Update()
@@ -29,9 +31,9 @@ public class Game : MonoBehaviour
         if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2"))
         {
             //swapPosition();
-            //swapWorld();
+            swapWorld();
 
-            if (Input.GetButtonDown("Action1"))
+            /*if (Input.GetButtonDown("Action1"))
             {
                 swapPOV(isPlayer01InPOV, player01, player02, world01, world02);
                 isPlayer01InPOV = !isPlayer01InPOV;
@@ -40,7 +42,7 @@ public class Game : MonoBehaviour
             {
                 swapPOV(isPlayer02InPOV, player02, player01, world02, world01);
                 isPlayer02InPOV = !isPlayer02InPOV;
-            }
+            }*/
         }
     }
 
@@ -55,6 +57,9 @@ public class Game : MonoBehaviour
 
     private void swapWorld()
     {
+        world01.setGemActive(isWorldSwapped);
+        world02.setGemActive(isWorldSwapped);
+        
         Vector3 player01LocalPosition = player01.transform.localPosition;
         Vector3 player02LocalPosition = player02.transform.localPosition;
 
@@ -66,6 +71,8 @@ public class Game : MonoBehaviour
 
         player01.transform.localPosition = player01LocalPosition;
         player02.transform.localPosition = player02LocalPosition;
+
+        isWorldSwapped = !isWorldSwapped;
     }
 
     public void swapPOV(bool isInPOV, Player player, Player otherPlayer, World world, World otherWorld)
