@@ -127,6 +127,7 @@ MonoBehaviour:
   maximumX: 360
   minimumY: -60
   maximumY: 60
+  playerNumber: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,12 +207,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axes: 1
-  sensitivityX: 15
-  sensitivityY: 0
+  sensitivityX: 5
+  sensitivityY: 5
   minimumX: -360
   maximumX: 360
   minimumY: 0
   maximumY: 0
+  playerNumber: 2
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

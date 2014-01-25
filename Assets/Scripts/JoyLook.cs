@@ -15,7 +15,7 @@ using System.Collections;
 /// - Add a MouseLook script to the camera.
 ///   -> Set the mouse look to use LookY. (You want the camera to tilt up and down like a head. The character already turns.)
 [AddComponentMenu("Camera-Control/Mouse Look")]
-public class MouseLook : MonoBehaviour {
+public class JoyLook : MonoBehaviour {
 
 	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
 	public RotationAxes axes = RotationAxes.MouseXAndY;
@@ -28,36 +28,47 @@ public class MouseLook : MonoBehaviour {
 	public float minimumY = -60F;
 	public float maximumY = 60F;
 
-	float rotationY = 0F;
+	public int playerNumber;
+
+	private float currentX = 0;
+	private float currentY = 0;
 
 	void Update ()
 	{
-		if (axes == RotationAxes.MouseXAndY)
+		Debug.Log(Input.GetAxis("Look1X") + ", " + Input.GetAxis("Look2X") + ", " + Input.GetAxis("Look1Y") + ", " + Input.GetAxis("Look2Y"));
+
+		if (playerNumber == 1)
 		{
-			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
-			
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-			
-			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+			currentX += Input.GetAxis("Look1X") * sensitivityX;
+			currentY += Input.GetAxis("Look1Y") * sensitivityY;
 		}
-		else if (axes == RotationAxes.MouseX)
+		else if (playerNumber == 2)
 		{
-			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
+			currentX += Input.GetAxis("Look2X") * sensitivityX;
+			currentY += Input.GetAxis("Look2Y") * sensitivityY;
 		}
-		else
-		{
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-			
-			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
-		}
+		transform.localEulerAngles = new Vector3(currentY, currentX, 0);
 	}
 	
 	void Start ()
 	{
 		// Make the rigid body not change rotation
+		currentX = transform.localEulerAngles.x;
+		currentY = transform.localEulerAngles.y;
+
 		if (rigidbody)
 			rigidbody.freezeRotation = true;
 	}
 }
+
+/*			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Look2Y") * sensitivityX;
+			
+			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
+			
+			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+
+
+*/
+
+
