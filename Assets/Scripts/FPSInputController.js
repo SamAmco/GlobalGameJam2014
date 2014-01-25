@@ -7,7 +7,8 @@ function Awake () {
 }
 
 // Update is called once per frame
-function Update () {
+function Update ()
+{
 	// Get the input vector from keyboard or analog stick
 	var directionVector : Vector3;
 	if (playerNum == 1)
