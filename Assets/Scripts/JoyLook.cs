@@ -34,10 +34,6 @@ public class JoyLook : MonoBehaviour
 	
 	void Start ()
 	{
-		currentX = transform.localEulerAngles.x;
-		currentY = transform.localEulerAngles.y;
-
-		if (rigidbody)
-			rigidbody.freezeRotation = true;
+        currentX = transform.localEulerAngles.y;
 	}
 }

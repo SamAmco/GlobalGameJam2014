@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Game : MonoBehaviour
 {
+    public PowerID powerID;
+
 	private Player player01;
     private Player player02;
 
@@ -19,6 +21,13 @@ public class Game : MonoBehaviour
 
     public bool hasReadNote = false;
 
+    public enum PowerID
+    {
+        SwapPosition = 0,
+        SwapWorld = 1,
+        SharePOV = 2
+    }
+
     void Start()
     {
 		player01 = GameObject.Find("Player1").GetComponent<Player>();
@@ -30,9 +39,6 @@ public class Game : MonoBehaviour
         player01.transform.parent = world01.transform;
         player02.transform.parent = world02.transform;
 
-        //player01.transform.localPosition = world01.spawnPoint.localPosition;
-        //player02.transform.localPosition = world02.spawnPoint.localPosition;
-
         world01.init(this);
         world02.init(this);
     }
@@ -41,19 +47,27 @@ public class Game : MonoBehaviour
     {
         if ((Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2")) && hasReadNote)
         {
-            //swapPosition();
-            swapWorld();
-
-            /*if (Input.GetButtonDown("Action1"))
+            if (powerID == PowerID.SwapPosition)
             {
-                swapPOV(isPlayer01InPOV, player01, player02, world01, world02);
-                isPlayer01InPOV = !isPlayer01InPOV;
+                swapPosition();
             }
-            else
+            else if (powerID == PowerID.SwapWorld)
             {
-                swapPOV(isPlayer02InPOV, player02, player01, world02, world01);
-                isPlayer02InPOV = !isPlayer02InPOV;
-            }*/
+                swapWorld();
+            }
+            else if (powerID == PowerID.SharePOV)
+            {
+                if (Input.GetButtonDown("Action1"))
+                {
+                    swapPOV(isPlayer01InPOV, player01, player02, world01, world02);
+                    isPlayer01InPOV = !isPlayer01InPOV;
+                }
+                else
+                {
+                    swapPOV(isPlayer02InPOV, player02, player01, world02, world01);
+                    isPlayer02InPOV = !isPlayer02InPOV;
+                }
+            }
         }
     }
 
@@ -95,7 +109,7 @@ public class Game : MonoBehaviour
         {
             player.endCameraPOV();
 
-            Vector3 playerLocalPosition = player.transform.localPosition;
+            Vector3 playerLocalPosition = player.transform.localPosition + (Vector3.up * 0.5f);
 
             player.transform.parent = world.transform;
             player.transform.localPosition = playerLocalPosition;

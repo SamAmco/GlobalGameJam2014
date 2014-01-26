@@ -9,7 +9,7 @@ public class Note : MonoBehaviour
     {
         "Without thinking twice, I would have given anything to be able to put myself in her position.",
         "It used to drive me crazy,\nsometimes it felt like we were\nin two completely different\nworlds.",
-        "Seriously, he would not listen to anyone. If he only had tried to look at the problem from my point of view."
+        "Seriously, he would not\nlisten to anyone. If he only\nhad tried to look at the\nproblem from my point of\nview."
     };
 
     private Game game;

@@ -27,14 +27,14 @@ public class InputManager : MonoBehaviour
 
 	void Update ()
     {
-        if (Input.GetAxisRaw("Vertical1") < 0)
+        if (Input.GetAxisRaw("Vertical1") < 0 || Input.GetAxisRaw("Vertical2") < 0)
         {
             _isDown = Time.time > time;
             _isUp = false;
 
             if (_isDown) time = Time.time + WAIT_FOR_INPUT;
         }
-        else if (Input.GetAxisRaw("Vertical1") > 0)
+        else if (Input.GetAxisRaw("Vertical1") > 0 || Input.GetAxisRaw("Vertical2") > 0)
         {
             _isDown = false;
             _isUp = Time.time > time;

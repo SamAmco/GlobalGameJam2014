@@ -14,7 +14,7 @@ public class MainMenu : MonoBehaviour
 	
 	void Update ()
     {
-	    if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2"))
         {
             title.SetActive(false);
             levelSelector.SetActive(true);

@@ -12,12 +12,14 @@ public class Player : MonoBehaviour
 
     private bool isPOV = false;
     private Transform cameraTransform;
+    private Vector3 cameraInitLocalPos;
 
     private Game game;
 
     public void init(Game game)
     {
         this.game = game;
+        cameraInitLocalPos = playerCamera.transform.localPosition;
     }
 
     public void startCameraPOV(Transform otherCameraTransform)
@@ -31,8 +33,8 @@ public class Player : MonoBehaviour
         isPOV = false;
         cameraTransform = null;
 
-        playerCamera.transform.localPosition = Vector3.zero;
         playerCamera.transform.localRotation = Quaternion.identity;
+        playerCamera.transform.localPosition = cameraInitLocalPos;
     }
 
     void Update()

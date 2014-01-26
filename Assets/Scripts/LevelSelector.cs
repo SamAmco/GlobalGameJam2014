@@ -39,7 +39,11 @@ public class LevelSelector : MonoBehaviour
 
             levels[currentLevelIndex].color = Color.white;
         }
-
-        Debug.Log(currentLevelIndex);
+        else if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2"))
+        {
+            if (currentLevelIndex == 0) Application.LoadLevel("02_Level01");
+            else if (currentLevelIndex == 1) Application.LoadLevel("03_Level02");
+            else if (currentLevelIndex == 2) Application.Quit();
+        }
 	}
 }
