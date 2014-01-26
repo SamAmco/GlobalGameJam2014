@@ -59,13 +59,19 @@ public class Game : MonoBehaviour
             {
                 if (Input.GetButtonDown("Action1"))
                 {
-                    swapPOV(isPlayer01InPOV, player01, player02, world01, world02);
-                    isPlayer01InPOV = !isPlayer01InPOV;
+                    if (!isPlayer02InPOV)
+                    {
+                        swapPOV(isPlayer01InPOV, player01, player02, world01, world02);
+                        isPlayer01InPOV = !isPlayer01InPOV;
+                    }
                 }
                 else
                 {
-                    swapPOV(isPlayer02InPOV, player02, player01, world02, world01);
-                    isPlayer02InPOV = !isPlayer02InPOV;
+                    if (!isPlayer01InPOV)
+                    {
+                        swapPOV(isPlayer02InPOV, player02, player01, world02, world01);
+                        isPlayer02InPOV = !isPlayer02InPOV;
+                    }
                 }
             }
         }

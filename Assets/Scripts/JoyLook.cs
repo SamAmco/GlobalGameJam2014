@@ -15,17 +15,19 @@ public class JoyLook : MonoBehaviour
 	private float currentX = 0;
 	private float currentY = 0;
 
+    private bool isInPOV = false;
+
 	void Update ()
 	{
 		if (playerNumber == 1)
 		{
 			currentX += Input.GetAxis("Look1X") * sensitivityX;
-			currentY += Input.GetAxis("Look1Y") * sensitivityY;
+            if (!isInPOV) currentY += Input.GetAxis("Look1Y") * sensitivityY;
 		}
 		else if (playerNumber == 2)
 		{
 			currentX += Input.GetAxis("Look2X") * sensitivityX;
-			currentY += Input.GetAxis("Look2Y") * sensitivityY;
+            if (!isInPOV) currentY += Input.GetAxis("Look2Y") * sensitivityY;
 		}
 
         currentY = Mathf.Clamp(currentY, minimumY, maximumY);
@@ -36,4 +38,15 @@ public class JoyLook : MonoBehaviour
 	{
         currentX = transform.localEulerAngles.y;
 	}
+
+    public void startPOV()
+    {
+        isInPOV = true;
+        currentY = 0;
+    }
+
+    public void endPOV()
+    {
+        isInPOV = false;
+    }
 }

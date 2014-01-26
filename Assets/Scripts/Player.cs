@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
+    private JoyLook joyLook;
+
     public Camera playerCamera;
     public TextMesh text;
     public int playerIndex;
@@ -20,12 +22,18 @@ public class Player : MonoBehaviour
     {
         this.game = game;
         cameraInitLocalPos = playerCamera.transform.localPosition;
+
+        joyLook = GetComponent<JoyLook>();
     }
 
     public void startCameraPOV(Transform otherCameraTransform)
     {
         isPOV = true;
         cameraTransform = otherCameraTransform;
+
+        joyLook.startPOV();
+
+        setText("Other Player POV");
     }
 
     public void endCameraPOV()
@@ -35,6 +43,10 @@ public class Player : MonoBehaviour
 
         playerCamera.transform.localRotation = Quaternion.identity;
         playerCamera.transform.localPosition = cameraInitLocalPos;
+
+        setText("");
+
+        joyLook.endPOV();
     }
 
     void Update()
@@ -58,6 +70,7 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Note")
         {
+            game.hasReadNote = true;
             Note note = other.GetComponent<Note>();
             readNote(note.message);
         }
@@ -67,7 +80,6 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Note")
         {
-            game.hasReadNote = true;
             hideNote();
         }
     }
